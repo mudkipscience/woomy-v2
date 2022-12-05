@@ -4,3 +4,4 @@ Lavalink.jar
 logs
 *.log
 node_modules
+.vscode

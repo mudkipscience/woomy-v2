@@ -6,12 +6,11 @@ const EventLoader = require('./util/eventLoader');
 const EventHandler = require('./util/handlers/eventHandler');
 const MessageHandler = require('./util/handlers/messageHandler');
 const Functions = require('./util/functions');
-const Database = require('./util/database');
+// const Database = require('./util/database');
 const Logger = require('./util/logger');
 const sentry = require('@sentry/node');
 const config = require('../botconfig.json');
 const version = require('../package.json').version;
-
 class WoomyClient extends Discord.Client {
     constructor (options) {
         super(options);
@@ -24,7 +23,7 @@ class WoomyClient extends Discord.Client {
         // Essential modules
         this.logger = Logger;
         this.MessageEmbed = Discord.MessageEmbed;
-        this.db = new Database(this);
+        //this.db = new Database(this);
         this.functions = new Functions(this);
         this.commandLoader = new CommandLoader(this);
         this.eventLoader = new EventLoader(this);
@@ -50,7 +49,7 @@ class WoomyClient extends Discord.Client {
         this.on('voiceStateUpdate', this.runVoiceStateUpdateModules);
     }
     
-    // Recieves information from the per-event listeners, and passes on needed information to the handler
+    // Receives information from the per-event listeners, and passes on needed information to the handler
     mainEventListener (wsEvent, param_1, param_2) {
         try {
             this.eventHandler.handle(wsEvent, param_1, param_2);
@@ -97,16 +96,20 @@ class WoomyClient extends Discord.Client {
 // Initialize our client
 const client = new WoomyClient({ 
     shards: 'auto',
+    partials: [
+        Discord.Partials.Reaction,
+    ],
     intents: [
-        'GUILDS',
-        'GUILD_MEMBERS',
-        'GUILD_EMOJIS',
-        'GUILD_VOICE_STATES',
-        'GUILD_MESSAGES',
-        'DIRECT_MESSAGES',
-        'GUILD_MESSAGE_REACTIONS',
+        Discord.GatewayIntentBits.Guilds,
+        Discord.GatewayIntentBits.GuildMembers,
+        Discord.GatewayIntentBits.GuildEmojisAndStickers,
+        Discord.GatewayIntentBits.GuildVoiceStates,
+        Discord.GatewayIntentBits.GuildMessages,
+        Discord.GatewayIntentBits.MessageContent,
+        Discord.GatewayIntentBits.GuildMessageReactions,
     ]
 });
+
 // Extensions of native javascript types, *not good practice* but they're useful
 require('./util/prototypes');
 
@@ -115,7 +118,7 @@ client.commandLoader.loadCommands();
 client.eventLoader.loadEventModules();
 client.createEventListeners();
 
-// Development mode is set in botconfig.yml, and disables some stuff if enabled. Imagine how messy Sentry would be without this!
+// Development mode is set in botconfig.json
 if (client.config.developmentMode === false) {
     try { 
         sentry.init({ dsn: client.config.keys.sentry });
