@@ -47,7 +47,7 @@ module.exports = class {
         const badges = [];
         
         if (client.config.ownerIDs.includes(member.id)) badges.push('<:Woomy_Developer:816822318289518622> ');
-        if (member.id === member.guild.ownerID) badges.push('<:owner:685703193694306331>');
+        if (member.id === member.guild.ownerId) badges.push('<:owner:685703193694306331>');
         if (member.bot) badges.push('<:bot:686489601678114859>');
 
         const roles = [];

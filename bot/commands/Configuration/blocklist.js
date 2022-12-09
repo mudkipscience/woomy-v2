@@ -71,7 +71,7 @@ module.exports = class {
         const blocklist = data.guild.blocklist;
 
         if (action === 'add') {
-            if (member.id === message.guild.ownerID) return message.channel.send(
+            if (member.id === message.guild.ownerId) return message.channel.send(
                 `${client.config.emojis.userError} You can't block the owner, silly!`
             );
             
@@ -96,7 +96,7 @@ module.exports = class {
         }
 
         if (action === 'remove') {            
-            if (client.functions.highestRole(member).position >= client.functions.highestRole(message.member).position && message.member.id !== message.guild.ownerID) {
+            if (client.functions.highestRole(member).position >= client.functions.highestRole(message.member).position && message.member.id !== message.guild.ownerId) {
                 return message.channel.send(`${client.config.emojis.userError} This user has a higher role than you, you can't remove them to the blocklist!`);
             }
 

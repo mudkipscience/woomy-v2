@@ -24,7 +24,7 @@ module.exports = class {
             .setTitle(guild.name)
             .setThumbnail(guild.iconURL)
             .addField('ID', guild.id, true)
-            .addField('Owner', `<@${guild.ownerID}>`, true)
+            .addField('Owner', `<@${guild.ownerId}>`, true)
             .addField('Region', guild.region.toProperCase(), true)
             .addField('Boosts', `${guild.premiumSubscriptionCount} (Level ${guild.premiumTier})`, true)
             .addField('Member Count (Approximate)', `${guild.memberCount} (${guild.memberCount - guild.members.filter(member => member.user.bot).length} humans, ${guild.members.filter(member => member.user.bot).length} bots)`, true)
