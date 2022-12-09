@@ -20,7 +20,7 @@ module.exports = class {
     }
 
     run (client, message, args, data) { //eslint-disable-line no-unused-vars
-        client.logger.success('RESTART', 'Restart command recieved. ' + exitQuotes.random());
+        client.logger.success('RESTART', 'Restart command received. ' + exitQuotes.random());
         client.disconnect();
         client.functions.wait();
         
