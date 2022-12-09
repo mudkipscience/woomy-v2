@@ -4,7 +4,7 @@ const Discord = require('discord.js');
 const CommandLoader = require('./util/commandLoader');
 const EventLoader = require('./util/eventLoader');
 const EventHandler = require('./event_modules/eventHandler');
-const MessageHandler = require('./event_modules/interactionCreate/messageHandler');
+const MessageHandler = require('./event_modules/messageCreate/messageHandler');
 const Functions = require('./util/functions');
 const Database = require('./util/database');
 const Logger = require('./util/logger');
@@ -41,8 +41,8 @@ class WoomyClient extends Discord.Client {
     createEventListeners () {
         this.on('ready', this.runReadyModules);
         this.on('error', this.runErrorModules);
-        this.on('interactionCreate', this.runInteractionModules);
-        /// this.on('messageCreate', this.runMessageCreateModules);
+        this.on('interactionCreate', this.runInteractionCreateModules);
+        this.on('messageCreate', this.runMessageCreateModules);
         this.on('guildCreate', this.runGuildCreateModules);
         this.on('guildDelete', this.runGuildDeleteModules);
         this.on('guildMemberAdd', this.runGuildMemberAddModules);
@@ -73,6 +73,7 @@ class WoomyClient extends Discord.Client {
     }
 
     runMessageCreateModules (message) {
+        this.messageHandler.handle(message);
         this.mainEventListener('messageCreate', message);
     }
 
