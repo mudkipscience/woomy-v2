@@ -18,7 +18,7 @@
         "database": "",
         "password": "",
         "port": 0000
-    }
+    },
 
     "emojis": {
         "success": "<:success:466995111885144095>",
