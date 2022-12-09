@@ -3,10 +3,10 @@
 const Discord = require('discord.js');
 const CommandLoader = require('./util/commandLoader');
 const EventLoader = require('./util/eventLoader');
-const EventHandler = require('./util/handlers/eventHandler');
-const MessageHandler = require('./util/handlers/messageHandler');
+const EventHandler = require('./event_modules/eventHandler');
+const MessageHandler = require('./event_modules/interactionCreate/messageHandler');
 const Functions = require('./util/functions');
-// const Database = require('./util/database');
+const Database = require('./util/database');
 const Logger = require('./util/logger');
 const sentry = require('@sentry/node');
 const config = require('../botconfig.json');
@@ -23,7 +23,7 @@ class WoomyClient extends Discord.Client {
         // Essential modules
         this.logger = Logger;
         this.MessageEmbed = Discord.MessageEmbed;
-        //this.db = new Database(this);
+        this.db = new Database(this);
         this.functions = new Functions(this);
         this.commandLoader = new CommandLoader(this);
         this.eventLoader = new EventLoader(this);
@@ -41,7 +41,8 @@ class WoomyClient extends Discord.Client {
     createEventListeners () {
         this.on('ready', this.runReadyModules);
         this.on('error', this.runErrorModules);
-        this.on('messageCreate', this.runMessageCreateModules);
+        this.on('interactionCreate', this.runInteractionModules);
+        /// this.on('messageCreate', this.runMessageCreateModules);
         this.on('guildCreate', this.runGuildCreateModules);
         this.on('guildDelete', this.runGuildDeleteModules);
         this.on('guildMemberAdd', this.runGuildMemberAddModules);
@@ -67,8 +68,11 @@ class WoomyClient extends Discord.Client {
         this.mainEventListener('error', error);
     }
 
+    runInteractionCreateModules (interaction) {
+        this.mainEventListener('interactionCreate', interaction);
+    }
+
     runMessageCreateModules (message) {
-        this.messageHandler.handle(message);
         this.mainEventListener('messageCreate', message);
     }
 
@@ -142,7 +146,7 @@ process.on('unhandledRejection', err => {
     client.logger.error('UNHANDLED_PROMISE_ERROR', err.stack);
 });
 
-// Shut down gracefully when SIGINT is recieved
+// Shut down gracefully when SIGINT is received
 process.on('SIGINT', () => {
     client.functions.shutdown();
 });
