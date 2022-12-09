@@ -101,7 +101,7 @@ class WoomyClient extends Discord.Client {
 const client = new WoomyClient({ 
     shards: 'auto',
     partials: [
-        Discord.Partials.Reaction,
+        Discord.Partials.Reaction
     ],
     intents: [
         Discord.GatewayIntentBits.Guilds,
@@ -110,8 +110,14 @@ const client = new WoomyClient({
         Discord.GatewayIntentBits.GuildVoiceStates,
         Discord.GatewayIntentBits.GuildMessages,
         Discord.GatewayIntentBits.MessageContent,
-        Discord.GatewayIntentBits.GuildMessageReactions,
-    ]
+        Discord.GatewayIntentBits.GuildMessageReactions
+    ],
+    allowedMentions: { 
+        parse: [
+            'users',
+            'roles'
+        ]
+    }
 });
 
 // Extensions of native javascript types, *not good practice* but they're useful
