@@ -5,7 +5,9 @@
 
     "userAgent": "",
     
-    "ownerIDs": [""],
+    "devIds": [""],
+
+    "clientId": "",
 
     "keys": {
         "sentry": "",
