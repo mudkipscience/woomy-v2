@@ -1,4 +1,5 @@
 const Command = require("../../base/Command.js");
+const replies = require('../../assets/replies.json');
 
 module.exports = class Ping extends Command {
     constructor (name, category) {
@@ -8,7 +9,8 @@ module.exports = class Ping extends Command {
         this.category = category
     }
 
-    run (client, interaction, data) { //eslint-disable-line no-unused-vars
-        return interaction.reply('Pong! Did I do this right?');
+    async run (client, interaction, data) { //eslint-disable-line no-unused-vars
+        const msg = await interaction.reply({ content: replies.ping.random(), fetchReply: true });
+        interaction.editReply(`${msg.content} Roundtrip: \`${msg.createdTimestamp - interaction.createdTimestamp}ms\` Heartbeat: \`${client.ws.ping}ms\``);
     }
 };
