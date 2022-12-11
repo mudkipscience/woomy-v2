@@ -13,12 +13,8 @@ class CommandLoader {
                 const name = file.substr(file.indexOf('/') + 1).slice(0, -3);
                 const category = file.substr(0, file.indexOf('/'));
                 const command = new (require(this.client.path + '/commands/' + file))(name, category);
-
                 this.client.commands.set(command.name, command);
                 this.client.cooldowns.set(command.name, new Map());
-                command.aliases.forEach(alias => {
-                    this.client.aliases.set(alias, command.name);
-                });
             } catch (error) {
                 this.client.logger.error('COMMAND_LOADER_ERROR', `Failed to load ${file}: ${error}`);
             }
