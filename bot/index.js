@@ -4,7 +4,6 @@ const Discord = require('discord.js');
 const CommandLoader = require('./util/commandLoader');
 const EventLoader = require('./util/eventLoader');
 const EventHandler = require('./event_modules/eventHandler');
-const MessageHandler = require('./event_modules/messageCreate/messageHandler');
 const Functions = require('./util/functions');
 const Database = require('./util/database');
 const Logger = require('./util/logger');
@@ -28,7 +27,6 @@ class WoomyClient extends Discord.Client {
         this.commandLoader = new CommandLoader(this);
         this.eventLoader = new EventLoader(this);
         this.eventHandler = new EventHandler(this);
-        this.messageHandler = new MessageHandler(this);
 
         // Collections to store our successfully loaded events and commands in, as well as cooldowns.
         this.commands = new Discord.Collection();
@@ -100,9 +98,6 @@ const client = new WoomyClient({
         Discord.GatewayIntentBits.GuildMembers,
         Discord.GatewayIntentBits.GuildEmojisAndStickers,
         Discord.GatewayIntentBits.GuildVoiceStates,
-        Discord.GatewayIntentBits.GuildMessages,
-        Discord.GatewayIntentBits.MessageContent,
-        Discord.GatewayIntentBits.GuildMessageReactions
     ],
     allowedMentions: { 
         parse: [
