@@ -42,7 +42,6 @@ class WoomyClient extends Discord.Client {
         this.on('ready', this.runReadyModules);
         this.on('error', this.runErrorModules);
         this.on('interactionCreate', this.runInteractionCreateModules);
-        this.on('messageCreate', this.runMessageCreateModules);
         this.on('guildCreate', this.runGuildCreateModules);
         this.on('guildDelete', this.runGuildDeleteModules);
         this.on('guildMemberAdd', this.runGuildMemberAddModules);
@@ -72,11 +71,6 @@ class WoomyClient extends Discord.Client {
         this.mainEventListener('interactionCreate', interaction);
     }
 
-    runMessageCreateModules (message) {
-        this.messageHandler.handle(message);
-        this.mainEventListener('messageCreate', message);
-    }
-
     runGuildCreateModules (guild) {
         this.mainEventListener('guildCreate', guild);
     }
@@ -101,9 +95,6 @@ class WoomyClient extends Discord.Client {
 // Initialize our client
 const client = new WoomyClient({ 
     shards: 'auto',
-    partials: [
-        Discord.Partials.Reaction
-    ],
     intents: [
         Discord.GatewayIntentBits.Guilds,
         Discord.GatewayIntentBits.GuildMembers,
