@@ -33,7 +33,7 @@ module.exports = class {
             const cooldown = command.cooldown / 1000;
             const timePassed = Math.floor((currentTime - timestamp) / 1000);
             return interaction.reply(
-                `${client.config.emojis.wait} ${message.author.mention}, you need to wait ${cooldown - timePassed} seconds before using this command again.`
+                `${client.config.emojis.wait} <@${interaction.user.id}>, you need to wait ${cooldown - timePassed} seconds before using this command again.`
             );
         } else {
             client.cooldowns.get(command.name).set(interaction.user.id, new Date());
@@ -42,6 +42,7 @@ module.exports = class {
             }, client.commands.get(command.name).cooldown);
         }        
 
+        // Try to execute the command, if it fails return error stack and inform the user
         try {
             command.run(client, interaction, data);
             client.logger.command(`Ran ${command.name}`);
