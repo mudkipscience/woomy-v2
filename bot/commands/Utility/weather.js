@@ -28,8 +28,6 @@ module.exports = class Weather extends Command {
 
     async run (client, interaction, data) { //eslint-disable-line no-unused-vars
 
-        await interaction.deferReply();
-
         const city = await interaction.options.get('city').value;
         let country = await interaction.options.get('country');
         let countryCode = "";
@@ -79,16 +77,20 @@ module.exports = class Weather extends Command {
                 ])
                 .setFooter({ text: 'Powered by openweathermap.org'});
     
-                return interaction.editReply({embeds: [embed]});
+                return interaction.reply({embeds: [embed]});
             } else {
                 if (json.message && json.message === 'city not found') {
-                    return interaction.editReply(`${client.config.emojis.userError} ${city.toProperCase()} is not listed in my sources.`);
-                }
-                return interaction.editReply(`${client.config.emojis.botError} API error occurred: \`code ${json.cod}: ${json.message}\``);
-            }
-        })
-        .catch(err => {
-            return interaction.editReply(`${client.config.emojis.botError} An error has occurred: \`${err.stack}\``);
+                    return interaction.reply({
+                        content: `${client.config.emojis.userError} ${city.toProperCase()} is not listed in my sources.`,
+                        ephemeral: true
+                    });
+                };
+                client.logger.error('WEATHER_COMMAND_ERROR', `API Error: ${json}`)
+                return interaction.reply({
+                    content: `${client.config.emojis.botError} API error occurred: \`code ${json.cod}\``,
+                    ephemeral: true
+                });
+            };
         });
 
     };
