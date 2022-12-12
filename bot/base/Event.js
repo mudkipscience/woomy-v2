@@ -1,4 +1,4 @@
-module.exports = class {
+module.exports = class Event {
     constructor (wsEvent) {
         this.wsEvent = wsEvent;
     }

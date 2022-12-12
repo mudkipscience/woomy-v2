@@ -1,5 +1,7 @@
-module.exports = class {
+const Event = require("../../base/Event.js");
+module.exports = class InteractionHandler extends Event {
     constructor (wsEvent) {
+        super (wsEvent);
         this.wsEvent = wsEvent;
     }
 
