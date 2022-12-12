@@ -68,13 +68,13 @@ module.exports = class Weather extends Command {
                 .setColor(embedColor)
                 .addFields([
                     { name: 'Condition:', value: json.weather[0].main, inline: true },
-                    { name: 'Temperature:', value: `${tempCelsius}°C | ${Math.round(json.main.temp * 9/5 - 459.67)}°F`, inline: true },
+                    { name: 'Temperature:', value: `${tempCelsius}°C ・ ${Math.round(json.main.temp * 9/5 - 459.67)}°F`, inline: true },
                     { name: 'Min/Max:', value:`
-                        ${Math.round(json.main.temp_min - 273.15)}°C - ${Math.round(json.main.temp_max - 273.15)}°C
-                        ${Math.round(json.main.temp_min * 9/5 - 459.67)}°F - ${Math.round(json.main.temp_max * 9/5 - 459.67)}°F
+                        ${Math.round(json.main.temp_min - 273.15)}°C ・ ${Math.round(json.main.temp_max - 273.15)}°C
+                        ${Math.round(json.main.temp_min * 9/5 - 459.67)}°F ・ ${Math.round(json.main.temp_max * 9/5 - 459.67)}°F
                     `, inline: true},
                     { name: 'Humidity:', value: `${json.main.humidity}%`, inline: true },
-                    { name: 'Wind Speed:', value: `${Math.round(json.wind.speed * 10) / 10}km/h | ${Math.round(json.wind.speed * 10 / 1.609344)}mi/h`, inline: true },
+                    { name: 'Wind Speed:', value: `${Math.round(json.wind.speed * 10) / 10}km/h ・ ${Math.round(json.wind.speed * 10 / 1.609344)}mi/h`, inline: true },
                     { name: 'Wind Direction:', value: windrose.getPoint(json.wind.deg).name, inline: true}
                 ])
                 .setFooter({ text: 'Powered by openweathermap.org'});
