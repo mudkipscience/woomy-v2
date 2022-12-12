@@ -32,7 +32,7 @@ class Functions {
         return Math.round((Math.random() * (max - min) + min));
     }
 
-    randomColour () {
+    randomColor () {
         const n = (Math.random() * 0xfffff * 1000000).toString(16);
         return '#' + n.slice(0, 6);
     }
@@ -49,10 +49,6 @@ class Functions {
         }
         if (!role) return;
         return role;
-    }
-
-    searchMembers (guild, input) {
-
     }
 
     embedColor (guild, member) {

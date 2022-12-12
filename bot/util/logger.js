@@ -34,7 +34,7 @@ class Logger {
 
     /**
      * Log something related to being successful
-     * @param {string} title The title of the log enty
+     * @param {string} title The title of the log entry
      * @param {string} body The body of the log entry
      * @returns {void}
      */
@@ -44,7 +44,7 @@ class Logger {
 
     /**
      * Log something related to a warning
-     * @param {string} title The title of the log enty
+     * @param {string} title The title of the log entry
      * @param {string} body The body of the log entry
      * @returns {void}
      */
@@ -54,7 +54,7 @@ class Logger {
 
     /**
      * Log something related to an error
-     * @param {string} title The title of the log enty
+     * @param {string} title The title of the log entry
      * @param {string} body The body of the log entry
      * @returns {void}
      */
@@ -64,7 +64,7 @@ class Logger {
 
     /**
      * Log something related to debugging
-     * @param {string} title The title of the log enty
+     * @param {string} title The title of the log entry
      * @param {string} body The body of the log entry
      * @returns {void}
      */
