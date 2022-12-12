@@ -1,4 +1,4 @@
-const Event = require("../../base/Event.js");
+const Event = require('../../base/Event.js');
 module.exports = class InteractionHandler extends Event {
     constructor (wsEvent) {
         super (wsEvent);
@@ -39,7 +39,7 @@ module.exports = class InteractionHandler extends Event {
             return interaction.reply({
                 content: `${client.config.emojis.wait} You need to wait ${cooldown - timePassed} seconds before using this command again.`,
                 ephemeral: true
-        });
+            });
         } else {
             client.cooldowns.get(command.name).set(interaction.user.id, new Date());
             setTimeout(() => {

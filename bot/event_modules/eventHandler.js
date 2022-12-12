@@ -1,6 +1,6 @@
 /* eslint-disable indent */
-
 class EventHandler {
+    
     constructor (client) {
         this.client = client;
     }

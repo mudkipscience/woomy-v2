@@ -1,4 +1,4 @@
-const Event = require("../../base/Event.js");
+const Event = require('../../base/Event.js');
 const activities = require('../../assets/activities.json');
 module.exports = class Activity extends Event {
     constructor (wsEvent) {

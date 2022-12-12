@@ -1,4 +1,4 @@
-const Event = require("../../base/Event.js");
+const Event = require('../../base/Event.js');
 module.exports = class Ready extends Event {
     constructor (wsEvent) {
         super (wsEvent);
