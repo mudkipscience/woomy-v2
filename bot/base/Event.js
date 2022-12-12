@@ -3,7 +3,7 @@ module.exports = class {
         this.wsEvent = wsEvent;
     }
 
-    async run (client) { //eslint-disable-line no-unused-vars
+    run (client) { //eslint-disable-line no-unused-vars
 
     }
 };
