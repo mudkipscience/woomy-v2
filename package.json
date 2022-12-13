@@ -11,6 +11,7 @@
     "erlpack": "^0.1.3",
     "eslint": "^8.29.0",
     "fs-readdir-recursive": "^1.1.0",
+    "moment": "^2.29.4",
     "node-fetch": "^2.6.7",
     "pg": "^8.5.1",
     "pg-format": "^1.0.4",
