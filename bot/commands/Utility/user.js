@@ -11,10 +11,10 @@ module.exports = class Avatar extends Command {
             {
                 type: 6,
                 name: 'user',
-                description: 'The user who you want '
+                description: 'The user to get information on'
             },
         ],
-        this.usage = '/userinfo [user]',
+        this.usage = '/user [user]',
         this.friendlyOptions = '`user` - The user to get information on (optional)',
         this.category = category;
     }
