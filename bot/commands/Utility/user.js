@@ -1,7 +1,5 @@
 const Command = require('../../base/Command.js');
-const dayjs = require('dayjs');
-dayjs.extend(require('dayjs/plugin/relativeTime'));
-
+const { time } = require('discord.js');
 module.exports = class Avatar extends Command {
     constructor (name, category) {
         super (name, category);
@@ -57,10 +55,10 @@ module.exports = class Avatar extends Command {
                     name: 'Roles:', value: roles.join(' ')
                 },
                 {
-                    name: 'Joined Server', value: `${dayjs(member.joinedAt).format('D/M/YYYY HH:mm (UTCZ)')}\n*${dayjs().to(member.joinedAt)}*`, inline: true
+                    name: 'Joined Server', value: time(member.joinedAt, 'D') + time(member.joinedAt, 'R'), inline: true
                 },
                 {
-                    name: 'Joined Discord', value: `${dayjs(member.user.createdAt).format('D/M/YYYY HH:mm (UTCZ)')}\n*${dayjs().to(member.user.createdAt)}*`, inline: true
+                    name: 'Joined Discord', value: time(user.createdAt, 'D') + time(user.createdAt, 'R'), inline: true
                 }
             ]);
         if (badges.length > 0) {

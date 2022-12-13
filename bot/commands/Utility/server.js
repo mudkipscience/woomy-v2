@@ -80,7 +80,7 @@ module.exports = class Avatar extends Command {
                     name: 'Roles', value: roles.size.toString(), inline: true
                 },
                 {
-                    name: 'Created', value: time(guild.createdAt, 'D') + `, ${time(guild.createdAt, 'R')}`, inline: true
+                    name: 'Created', value: time(guild.createdAt, 'D') + time(guild.createdAt, 'R'), inline: true
                 },
                 {
                     name: 'Features', value: guild.features.join(', ')

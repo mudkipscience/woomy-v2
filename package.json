@@ -7,7 +7,6 @@
     "@sentry/node": "^7.23.0",
     "bufferutil": "^4.0.3",
     "chalk": "^4.1.2",
-    "dayjs": "^1.10.6",
     "discord.js": "^14.7.1",
     "erlpack": "^0.1.3",
     "eslint": "^8.29.0",
