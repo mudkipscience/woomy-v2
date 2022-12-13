@@ -1,7 +1,6 @@
 const Command = require('../../base/Command.js');
 const { version } = require('discord.js');
 const moment = require('moment');
-const { EmbedBuilder } = require('@discordjs/builders');
 require('moment-duration-format');
 
 
@@ -23,9 +22,8 @@ module.exports = class About extends Command {
             build = 'development';
         }
 
-        embed = new EmbedBuilder()
-            .setColor(client.functions.embedColor(interaction.guild)
-            .setThumbnail(client.user.vatarURL({format: "png"}))
+        const embed = new client.EmbedBuilder()
+            .setThumbnail(client.user.avatarURL({format: "png"}))
             .setTitle('About me!')
             .addFields([
                 {
@@ -42,8 +40,8 @@ module.exports = class About extends Command {
                     name: 'Links',
                     value: '[Support](https://discord.gg/HCF8mdv) | [Git](https://gitdab.com/embee/woomy)'
                 }
-            ])
-        interaction.reply({embeds: embed})
+            ]);
+        interaction.reply({embeds: embed});
 
     
     }
