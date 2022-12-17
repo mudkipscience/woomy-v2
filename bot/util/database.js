@@ -161,6 +161,21 @@ class Database {
         const res = await this.pool.query('INSERT INTO users (user_id) VALUES ($1) RETURNING *;', [id]);
         return res.rows[0];
     }
+
+    async countGuilds () {
+        const res = await this.pool.query('SELECT COUNT(*) FROM guilds;');
+        return res.rows[0].count;
+    }
+
+    async countMembers () {
+        const res = await this.pool.query('SELECT COUNT(*) FROM members;');
+        return res.rows[0].count;
+    }
+
+    async countUsers () {
+        const res = await this.pool.query('SELECT COUNT(*) FROM users;');
+        return res.rows[0].count;
+    }
 }
 
 module.exports = Database;
