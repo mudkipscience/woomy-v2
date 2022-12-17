@@ -1,5 +1,5 @@
 const Command = require('../../base/Command.js');
-const { version } = require('discord.js');
+const { version, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const moment = require('moment');
 require('moment-duration-format');
 
@@ -15,34 +15,42 @@ module.exports = class About extends Command {
 
     async run (client, interaction, data) { //eslint-disable-line no-unused-vars
         const uptime = moment.duration(client.uptime).format(' D [days], H [hrs], m [mins], s [secs]');
+        const bot = await interaction.guild.members.fetch(client.user.id, {force: true});
+        const userCount = await client.db.countUsers();
 
-        let build = 'production';
-
+        let build = 'prod';
         if (client.config.developmentMode === true) {
-            build = 'development';
+            build = 'dev';
         }
 
+        const links = new ActionRowBuilder()
+            .addComponents(
+                new ButtonBuilder()
+                    .setURL('https://discord.gg/HCF8mdv')
+                    .setLabel('Support')
+                    .setStyle(ButtonStyle.Link),
+                new ButtonBuilder()
+                    .setURL('https://gitdab.com/embee/woomy')
+                    .setLabel('Source')
+                    .setStyle(ButtonStyle.Link),
+            );
+
         const embed = new client.EmbedBuilder()
-            .setThumbnail(client.user.avatarURL({format: "png"}))
+            .setThumbnail(client.user.avatarURL({format: 'png'}))
+            .setColor(bot.user.hexAccentColor ?? bot.displayHexColor)
             .setTitle('About me!')
             .addFields([
                 {
                     name: 'General',
-                    value: `• users: \`${client.users.cache.size}\`\n• channels: \`${client.channels.cache.size}\`\n• servers: \`${client.guilds.cache.size}\`\n• commands: \`${client.commands.size}\`\n• uptime: \`${uptime}\``,
+                    value: `• Users (approx): \`${userCount.rows[0].count.toString()}\`\n• Channels: \`${client.channels.cache.size}\`\n• Servers: \`${client.guilds.cache.size}\`\n• Commands: \`${client.commands.size}\`\n• Uptime: \`${uptime}\``,
                     inline: true
                 },
                 {
                     name: 'Technical',
-                    value: `• RAM Usage: \`${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB\`\n• Host OS: \`${require("os").type}\`\n• bot version: \`${client.version.number} (${build})\`\n• discord.js version: \`v${version}\`\n• node.js version: \`${process.version}\``,
+                    value: `• RAM Usage: \`${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB\`\n• Host OS: \`${require('os').type}\`\n• Woomy version: \`v${client.version} ${build}\`\n• discord.js version: \`v${version}\`\n• node.js version: \`${process.version}\``,
                     inline: true
-                },
-                {
-                    name: 'Links',
-                    value: '[Support](https://discord.gg/HCF8mdv) | [Git](https://gitdab.com/embee/woomy)'
                 }
             ]);
-        interaction.reply({embeds: embed});
-
-    
+        return interaction.reply({ embeds: [embed], components: [links] });
     }
 };
