@@ -4,7 +4,7 @@ module.exports = class Colour extends Command {
     constructor (name, category) {
         super (name, category);
         this.name = name,
-        this.description = 'Shows you a random colour or a colour generated from a hex code or text.',
+        this.description = 'Shows you a random colour, or a colour generated from a hex code or text.',
         this.category = category;
         this.options = [
             {
