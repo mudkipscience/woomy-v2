@@ -9,8 +9,7 @@ module.exports = class About extends Command {
         super (name, category);
         this.name = name,
         this.description = 'Bot information and statistics',
-        this.category = category,
-        this.usage = '/about';
+        this.category = category;
     }
 
     async run (client, interaction, data) { //eslint-disable-line no-unused-vars
@@ -42,12 +41,12 @@ module.exports = class About extends Command {
             .addFields([
                 {
                     name: 'General',
-                    value: `• Users: \`${userCount}\`\n• Servers: \`${client.guilds.cache.size}\`\n• Commands: \`${client.commands.size}\`\n• Uptime: \`${uptime}\``,
+                    value: `» Users: \`${userCount}\`\n» Servers: \`${client.guilds.cache.size}\`\n» Commands: \`${client.commands.size}\`\n» Uptime: \`${uptime}\``,
                     inline: true
                 },
                 {
                     name: 'Technical',
-                    value: `• RAM Usage: \`${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB\`\n• Woomy version: \`v${client.version} ${build}\`\n• discord.js version: \`v${version}\`\n• node.js version: \`${process.version}\``,
+                    value: `» RAM Usage: \`${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB\`\n» Woomy version: \`v${client.version} ${build}\`\n» discord.js version: \`v${version}\`\n» node.js version: \`${process.version}\``,
                     inline: true
                 }
             ])

@@ -6,7 +6,6 @@ module.exports = class Avatar extends Command {
         super (name, category);
         this.name = name,
         this.description = 'View information on this server.',
-        this.usage = '/server',
         this.category = category;
     }
 
