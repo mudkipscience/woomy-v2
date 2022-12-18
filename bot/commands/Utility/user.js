@@ -25,7 +25,10 @@ module.exports = class Avatar extends Command {
         const badges = [];
         if (client.config.devIds.includes(user.id)) badges.push('<:Woomy_Developer:816822318289518622> ');
         if (user.id === member.guild.ownerId) badges.push('<:owner:685703193694306331>');
-        if (user.bot) badges.push('<:bot:686489601678114859>');
+        
+        user.flags?.toArray().forEach(flag => {
+            badges.push(`${client.config.emojis[flag] ?? flag}`);
+        });
 
         const roles = [];
         for (const roleId of member._roles) {

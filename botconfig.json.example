@@ -27,6 +27,18 @@
         "botError": "<:warning:701681841190600704>",
         "userError": "<:error:466995152976871434>",
         "permError": "<:denied:466995195150336020>",
-        "wait": "<:wait:467115775849922570>"
+        "wait": "<:wait:467115775849922570>",
+        "ActiveDeveloper": "<:ActiveDeveloper:1053643399477084261>",
+        "VerifiedDeveloper": "<:VerifiedDeveloper:1053643383631003709>",
+        "BugHunterLevel1": "<:BugHunterLevel1:1053643390853595186>",
+        "BugHunterLevel2": "<:BugHunterLevel2:1053643388836130826>",
+        "CertifiedModerator": "<:CertifiedModerator:1053643397103104070>",
+        "HypeSquadOnlineHouse1": "<:HypeSquadOnlineHouse1:1053643379948400730>",
+        "HypeSquadOnlineHouse2": "<:HypeSquadOnlineHouse2:1053643378253897758>",
+        "HypeSquadOnlineHouse3": "<:HypeSquadOnlineHouse3:1053643381823246388>",
+        "Hypesquad": "<:Hypesquad:1053643395215663144>",
+        "Partner": "<:Partner:1053643375921860618>",
+        "PremiumEarlySupporter": "<:PremiumEarlySupporter:1053643386550243338>",
+        "Staff": "<:Staff:1053643393248534652>"
     }
 }
