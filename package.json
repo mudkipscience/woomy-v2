@@ -26,12 +26,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/woomyware/v2.git"
+    "url": "git+https://gitdab.com/embee/woomy-v2.git"
   },
   "author": "Emily J. (mudkipscience)",
   "license": "AGPL-3.0",
   "bugs": {
-    "url": "https://github.com/woomyware/v2/issues"
+    "url": "https://gitdab.com/embee/woomy-v2/issues"
   },
-  "homepage": "https://github.com/woomyware/v2#readme"
+  "homepage": "https://gitdab.com/embee/woomy-v2"
 }
