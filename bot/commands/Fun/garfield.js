@@ -7,7 +7,8 @@ module.exports = class Garfield extends Command {
         super (name, category);
         this.name = name,
         this.description = 'John I require lasagna',
-        this.category = category;
+        this.category = category,
+        this.cooldown = 20000,
         this.options = [
             {
                 type: 1,
@@ -71,10 +72,10 @@ module.exports = class Garfield extends Command {
                     .setColor(bot.user.hexAccentColor ?? bot.displayHexColor)
                     .setImage(json.data.image.src);
                 interaction.editReply({ embeds: [embed] });
-            }).catch(err => {
+            })
+            .catch(err => {
                 client.logger.error('GARFIELD_COMMAND_ERROR', `API err or err replying: ${err}`);
                 return interaction.editReply(`${client.config.emojis.botError} An API error occurred, sorry! I've reported this to my developers.`);
             });
-        
     }
 };
