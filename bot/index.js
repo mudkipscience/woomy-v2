@@ -33,6 +33,9 @@ class WoomyClient extends Discord.Client {
         this.aliases = new Discord.Collection();
         this.eventModules = new Discord.Collection();
         this.cooldowns = new Discord.Collection();
+
+        // Cache we can store stuff in
+        this.cache = new Discord.Collection();
     }
 
     // Listen for Discord events and pass needed information to the event handler so we can respond to them.
