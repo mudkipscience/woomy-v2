@@ -28,6 +28,6 @@ module.exports = class Avatar extends Command {
             .setDescription(`[Global avatar](${user.avatarURL({extension: 'png', 'size': 4096})})`)
             .setImage(member.displayAvatarURL({extension: 'png', 'size': 4096}));
 
-        await interaction.reply({embeds: [embed]});
+        interaction.reply({embeds: [embed]});
     } 
 };

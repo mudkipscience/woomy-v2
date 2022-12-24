@@ -64,7 +64,7 @@ module.exports = class Weather extends Command {
                         .setTitle('Current conditions in ' + city.toProperCase() + ', ' + ISO2.code[json.sys.country])
                         .setThumbnail(`https://openweathermap.org/img/wn/${json.weather[0].icon}@4x.png`)
                         .setColor(embedColor)
-                        .addFields([
+                        .addFields(
                             { name: 'Condition:', value: json.weather[0].main, inline: true },
                             { name: 'Temperature:', value: `${tempCelsius}°C ・ ${Math.round(json.main.temp * 9/5 - 459.67)}°F`, inline: true },
                             { name: 'Min/Max:', value:`
@@ -74,7 +74,7 @@ module.exports = class Weather extends Command {
                             { name: 'Humidity:', value: `${json.main.humidity}%`, inline: true },
                             { name: 'Wind Speed:', value: `${Math.round(json.wind.speed * 10) / 10}km/h ・ ${Math.round(json.wind.speed * 10 / 1.609344)}mi/h`, inline: true },
                             { name: 'Wind Direction:', value: windrose.getPoint(json.wind.deg).name, inline: true}
-                        ])
+                        )
                         .setFooter({ text: 'Powered by openweathermap.org'});
         
                     return interaction.reply({embeds: [embed]});

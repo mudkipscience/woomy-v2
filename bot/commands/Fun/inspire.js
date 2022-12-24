@@ -11,7 +11,7 @@ module.exports = class Inspire extends Command {
     }
 
     async run (client, interaction, data) { //eslint-disable-line no-unused-vars
-        interaction.deferReply();
+        await interaction.deferReply();
         fetch('http://inspirobot.me/api?generate=true', { headers: { 'User-Agent': client.config.userAgent }})
             .then(res => res.text())
             .then(body => interaction.editReply(body))

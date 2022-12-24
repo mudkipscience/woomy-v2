@@ -44,7 +44,7 @@ module.exports = class Avatar extends Command {
             .setTitle(member.user.username + '#' + member.user.discriminator)
             .setColor(user.hexAccentColor ?? member.displayHexColor)
             .setThumbnail(member.displayAvatarURL({extension: 'png', 'size': 4096}))
-            .addFields([
+            .addFields(
                 {
                     name: 'Display Name', value: member.nick || user.username, inline: true
                 },
@@ -63,10 +63,10 @@ module.exports = class Avatar extends Command {
                 {
                     name: 'Joined Discord', value: time(user.createdAt, 'D') + time(user.createdAt, 'R'), inline: true
                 }
-            ]);
+            );
         if (badges.length > 0) {
             embed.setDescription(badges.join(' '));
         }
-        return await interaction.reply({embeds: [embed]});
+        return interaction.reply({embeds: [embed]});
     } 
 };

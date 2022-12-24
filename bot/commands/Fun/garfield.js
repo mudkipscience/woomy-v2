@@ -69,7 +69,7 @@ module.exports = class Garfield extends Command {
             .then(json => {
                 const embed = new client.EmbedBuilder()
                     .setTitle(`#${json.data.number}: ${json.data.name}`)
-                    .setColor(bot.user.hexAccentColor ?? bot.displayHexColor)
+                    .setColor(bot.displayHexColor)
                     .setImage(json.data.image.src);
                 interaction.editReply({ embeds: [embed] });
             })

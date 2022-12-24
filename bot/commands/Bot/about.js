@@ -37,8 +37,8 @@ module.exports = class About extends Command {
         const embed = new client.EmbedBuilder()
             .setTitle('About me')
             .setThumbnail(client.user.avatarURL({format: 'png'}))
-            .setColor(bot.user.hexAccentColor ?? bot.displayHexColor)
-            .addFields([
+            .setColor(bot.displayHexColor)
+            .addFields(
                 {
                     name: 'General',
                     value: `» Users: \`${userCount}\`\n» Servers: \`${client.guilds.cache.size}\`\n» Commands: \`${client.commands.size}\`\n» Uptime: \`${uptime}\``,
@@ -49,7 +49,7 @@ module.exports = class About extends Command {
                     value: `» RAM Usage: \`${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB\`\n» Woomy version: \`v${client.version} ${build}\`\n» discord.js version: \`v${version}\`\n» node.js version: \`${process.version}\``,
                     inline: true
                 }
-            ])
+            )
             .setFooter({ text: 'Made in Australia'});
 
         return interaction.reply({ embeds: [embed], components: [links] });

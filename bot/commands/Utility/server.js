@@ -47,7 +47,7 @@ module.exports = class Avatar extends Command {
             .setColor(client.functions.embedColor(guild))
             .setTitle(guild.name)
             .setThumbnail(guild.iconURL({extension: 'png', 'size': 4096}))  
-            .addFields([
+            .addFields(
                 {
                     name: 'ID', value: guild.id, inline: true
                 },
@@ -84,7 +84,7 @@ module.exports = class Avatar extends Command {
                 {
                     name: 'Features', value: guild.features.join(', ')
                 }
-            ]);
+            );
         interaction.reply({ embeds: [embed] });
     } 
 };

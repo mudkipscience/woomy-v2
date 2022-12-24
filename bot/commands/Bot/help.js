@@ -64,7 +64,7 @@ module.exports = class Help extends Command {
             const command = await client.commands.get(input.value);
             const embed = new client.EmbedBuilder()
                 .setTitle(`${command.category} -> ${command.name.toProperCase()}`)
-                .setColor(bot.user.hexAccentColor ?? bot.displayHexColor)
+                .setColor(bot.displayHexColor)
                 .setDescription(command.description)
                 .setFooter({ text: '<> = required, / = either/or, [] = optional'});
 
