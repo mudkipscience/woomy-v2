@@ -5,13 +5,23 @@
     },
 
     "Annaki": {
-        "common": "Main Power Up",
+        "common": "Ink Saver (Sub)",
         "uncommon": "Special Saver"
+    },
+
+    "Barazushi": {
+        "common": "Intensify Action",
+        "uncommon": "Sub Power Up"
     },
 
     "Cuttlegear": {
         "common": "N/A",
         "uncommon": "N/A"
+    },
+
+    "Emberz": {
+        "common": "Intensify Action",
+        "uncommon": "Special Charge Up"
     },
 
     "Enperry": {
@@ -36,7 +46,7 @@
 
     "Inkline": {
         "common": "Bomb Defence Up DX",
-        "uncommon": "Main Power Up"
+        "uncommon": "Intensify Action"
     },
 
     "Krak-On": {
@@ -54,7 +64,7 @@
         "uncommon": "Special Saver"
     },
 
-    "Splash Mob": {
+    "SplashMob": {
         "common": "Ink Saver (Main)",
         "uncommon": "Run Speed Up"
     },
@@ -75,7 +85,7 @@
     },
 
     "ToniKensa": {
-        "common": "Main Power Up",
+        "common": "Ink Saver (Main)",
         "uncommon": "Sub Power Up"
     },
 
