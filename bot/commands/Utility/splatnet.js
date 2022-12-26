@@ -2,6 +2,7 @@ const Command = require('../../base/Command.js');
 const fetch = require('node-fetch');
 const { pagination } = require('@devraelfreeze/discordjs-pagination');
 const prettifyMiliseconds = require('pretty-ms');
+const brandAbilities = require('../../assets/s3BrandAbilities.json');
 
 module.exports = class Splatnet extends Command {
     constructor (name, category) {
@@ -17,7 +18,7 @@ module.exports = class Splatnet extends Command {
             },
             {
                 type: 1,
-                name: 'sr',
+                name: 'salmonrun',
                 description: 'Get current and upcoming map rotations for salmon run, as well as the monthly gear reward.'
             },
             {
@@ -174,9 +175,83 @@ module.exports = class Splatnet extends Command {
                         .setFooter({ text: `Starting in ${prettifyMiliseconds(new Date(json.data.xSchedules.nodes[i].startTime).getTime() - Date.now(), { secondsDecimalDigits: 0 })} - Data provided by splatoon3.ink`})
                     );
                 }
-                interaction.editReply({embeds: [embeds[0]]});
+                await pagination({
+                    embeds: embeds,
+                    author: interaction.member.user,
+                    interaction: interaction,
+                    time: 60000,
+                    disableButtons: false,
+                });
             }
-            
         }
+
+        if (subCmd === 'gear') {
+            if (client.cache.has('SPLATNET_GEAR') && Date.now() > client.cache.get('SPLATNET_GEAR').expiry) {
+                client.cache.delete('SPLATNET_GEAR');
+            }
+
+            if (!client.cache.has('SPLATNET_GEAR')) {
+                fetch('https://splatoon3.ink/data/gear.json', { headers: { 'User-Agent': client.config.userAgent }})
+                    .then(res => res.json())
+                    .then(async json => {
+                        client.cache.set('SPLATNET_GEAR', {data: json, expiry: new Date(json.data.gesotown.pickupBrand.brandGears[0].saleEndTime)});
+
+                        for (let i = 0; i < json.data.gesotown.pickupBrand.brandGears.length; i++) {
+                            embeds.push(new client.EmbedBuilder()
+                                .setTitle(`${json.data.gesotown.pickupBrand.brandGears[i].gear.name} (${this.starPower(json.data.gesotown.pickupBrand.brandGears[i].gear.additionalGearPowers.length)})`)
+                                .setDescription(`This piece of gear is apart of the ${json.data.gesotown.pickupBrand.brand.name} daily drop. The next drop will be for ${json.data.gesotown.pickupBrand.nextBrand.name}.`)
+                                .setThumbnail(json.data.gesotown.pickupBrand.brandGears[i].gear.image.url)
+                                .setColor(interaction.guild.members.me.displayColor)
+                                .addFields(
+                                    {
+                                        name: 'Brand',
+                                        value: json.data.gesotown.pickupBrand.brandGears[i].gear.brand.name,
+                                        inline: true
+                                    },
+                                    {
+                                        name: 'Price',
+                                        value: `${json.data.gesotown.pickupBrand.brandGears[i].price}`,
+                                        inline: true,
+                                    },
+                                    {
+                                        name: 'Main Ability',
+                                        value: json.data.gesotown.pickupBrand.brandGears[i].gear.primaryGearPower.name,
+                                        inline: true
+                                    },
+                                    {
+                                        name: 'Common Ability',
+                                        value: brandAbilities[json.data.gesotown.pickupBrand.brandGears[i].gear.brand.name.trim()].common,
+                                        inline: true
+                                    },
+                                    {
+                                        name: 'Uncommon Ability',
+                                        value: brandAbilities[json.data.gesotown.pickupBrand.brandGears[i].gear.brand.name.trim()].uncommon,
+                                        inline: true
+                                    }
+                                )
+                                .setFooter({ text: `Off sale in ${prettifyMiliseconds(new Date(json.data.gesotown.pickupBrand.brandGears[i].saleEndTime).getTime() - Date.now(), { secondsDecimalDigits: 0 })} - Data provided by splatoon3.ink`})
+                            );
+                        }
+                        await pagination({
+                            embeds: embeds,
+                            author: interaction.member.user,
+                            interaction: interaction,
+                            time: 60000,
+                            disableButtons: false,
+                        });
+                    })
+                    .catch(err => {
+                        client.logger.error('SPLATNET_COMMAND_ERROR', `API err or err replying: ${err.stack}`);
+                        return interaction.editReply(`${client.config.emojis.botError} An error occurred, sorry! I've reported this to my developers.`);
+                    });
+            }
+        }
+    }
+
+    starPower (slots) {
+        if (slots === 1) return '0*';
+        if (slots === 2) return '1*';
+        if (slots === 3) return '2*';
+        return 'err';
     }
 };
