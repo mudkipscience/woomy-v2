@@ -194,8 +194,9 @@ module.exports = class Splatnet extends Command {
                 fetch('https://splatoon3.ink/data/gear.json', { headers: { 'User-Agent': client.config.userAgent }})
                     .then(res => res.json())
                     .then(async json => {
-                        client.cache.set('SPLATNET_GEAR', {data: json, expiry: new Date(json.data.gesotown.pickupBrand.brandGears[0].saleEndTime)});
+                        client.cache.set('SPLATNET_GEAR', {data: json, expiry: new Date(json.data.gesotown.limitedGears[0].saleEndTime)});
 
+                        // splatnet daily drop
                         for (let i = 0; i < json.data.gesotown.pickupBrand.brandGears.length; i++) {
                             embeds.push(new client.EmbedBuilder()
                                 .setTitle(`${json.data.gesotown.pickupBrand.brandGears[i].gear.name} (${this.starPower(json.data.gesotown.pickupBrand.brandGears[i].gear.additionalGearPowers.length)})`)
@@ -232,6 +233,43 @@ module.exports = class Splatnet extends Command {
                                 .setFooter({ text: `Off sale in ${prettifyMiliseconds(new Date(json.data.gesotown.pickupBrand.brandGears[i].saleEndTime).getTime() - Date.now(), { secondsDecimalDigits: 0 })} - Data provided by splatoon3.ink`})
                             );
                         }
+
+                        // general splatnet items
+                        for (let i = 0; i < json.data.gesotown.limitedGears.length; i++) {
+                            embeds.push(new client.EmbedBuilder()
+                                .setTitle(`${json.data.gesotown.limitedGears[i].gear.name} (${this.starPower(json.data.gesotown.limitedGears[i].gear.additionalGearPowers.length)})`)
+                                .setThumbnail(json.data.gesotown.limitedGears[i].gear.image.url)
+                                .setColor(interaction.guild.members.me.displayColor)
+                                .addFields(
+                                    {
+                                        name: 'Brand',
+                                        value: json.data.gesotown.limitedGears[i].gear.brand.name,
+                                        inline: true
+                                    },
+                                    {
+                                        name: 'Price',
+                                        value: `${json.data.gesotown.limitedGears[i].price}`,
+                                        inline: true,
+                                    },
+                                    {
+                                        name: 'Main Ability',
+                                        value: json.data.gesotown.limitedGears[i].gear.primaryGearPower.name,
+                                        inline: true
+                                    },
+                                    {
+                                        name: 'Common Ability',
+                                        value: brandAbilities[json.data.gesotown.limitedGears[i].gear.brand.name.trim()].common,
+                                        inline: true
+                                    },
+                                    {
+                                        name: 'Uncommon Ability',
+                                        value: brandAbilities[json.data.gesotown.limitedGears[i].gear.brand.name.trim()].uncommon,
+                                        inline: true
+                                    }
+                                )
+                                .setFooter({ text: `Off sale in ${prettifyMiliseconds(new Date(json.data.gesotown.limitedGears[i].saleEndTime).getTime() - Date.now(), { secondsDecimalDigits: 0 })} - Data provided by splatoon3.ink`})
+                            );
+                        }
                         await pagination({
                             embeds: embeds,
                             author: interaction.member.user,
@@ -244,6 +282,91 @@ module.exports = class Splatnet extends Command {
                         client.logger.error('SPLATNET_COMMAND_ERROR', `API err or err replying: ${err.stack}`);
                         return interaction.editReply(`${client.config.emojis.botError} An error occurred, sorry! I've reported this to my developers.`);
                     });
+            } else {
+                let json = client.cache.get('SPLATNET_GEAR');
+                json = json.data;
+
+                // splatnet daily drop
+                for (let i = 0; i < json.data.gesotown.pickupBrand.brandGears.length; i++) {
+                    embeds.push(new client.EmbedBuilder()
+                        .setTitle(`${json.data.gesotown.pickupBrand.brandGears[i].gear.name} (${this.starPower(json.data.gesotown.pickupBrand.brandGears[i].gear.additionalGearPowers.length)})`)
+                        .setDescription(`This piece of gear is apart of the ${json.data.gesotown.pickupBrand.brand.name} daily drop. The next drop will be for ${json.data.gesotown.pickupBrand.nextBrand.name}.`)
+                        .setThumbnail(json.data.gesotown.pickupBrand.brandGears[i].gear.image.url)
+                        .setColor(interaction.guild.members.me.displayColor)
+                        .addFields(
+                            {
+                                name: 'Brand',
+                                value: json.data.gesotown.pickupBrand.brandGears[i].gear.brand.name,
+                                inline: true
+                            },
+                            {
+                                name: 'Price',
+                                value: `${json.data.gesotown.pickupBrand.brandGears[i].price}`,
+                                inline: true,
+                            },
+                            {
+                                name: 'Main Ability',
+                                value: json.data.gesotown.pickupBrand.brandGears[i].gear.primaryGearPower.name,
+                                inline: true
+                            },
+                            {
+                                name: 'Common Ability',
+                                value: brandAbilities[json.data.gesotown.pickupBrand.brandGears[i].gear.brand.name.trim()].common,
+                                inline: true
+                            },
+                            {
+                                name: 'Uncommon Ability',
+                                value: brandAbilities[json.data.gesotown.pickupBrand.brandGears[i].gear.brand.name.trim()].uncommon,
+                                inline: true
+                            }
+                        )
+                        .setFooter({ text: `Off sale in ${prettifyMiliseconds(new Date(json.data.gesotown.pickupBrand.brandGears[i].saleEndTime).getTime() - Date.now(), { secondsDecimalDigits: 0 })} - Data provided by splatoon3.ink`})
+                    );
+                }
+
+                // general splatnet items
+                for (let i = 0; i < json.data.gesotown.limitedGears.length; i++) {
+                    embeds.push(new client.EmbedBuilder()
+                        .setTitle(`${json.data.gesotown.limitedGears[i].gear.name} (${this.starPower(json.data.gesotown.limitedGears[i].gear.additionalGearPowers.length)})`)
+                        .setThumbnail(json.data.gesotown.limitedGears[i].gear.image.url)
+                        .setColor(interaction.guild.members.me.displayColor)
+                        .addFields(
+                            {
+                                name: 'Brand',
+                                value: json.data.gesotown.limitedGears[i].gear.brand.name,
+                                inline: true
+                            },
+                            {
+                                name: 'Price',
+                                value: `${json.data.gesotown.limitedGears[i].price}`,
+                                inline: true,
+                            },
+                            {
+                                name: 'Main Ability',
+                                value: json.data.gesotown.limitedGears[i].gear.primaryGearPower.name,
+                                inline: true
+                            },
+                            {
+                                name: 'Common Ability',
+                                value: brandAbilities[json.data.gesotown.limitedGears[i].gear.brand.name.trim()].common,
+                                inline: true
+                            },
+                            {
+                                name: 'Uncommon Ability',
+                                value: brandAbilities[json.data.gesotown.limitedGears[i].gear.brand.name.trim()].uncommon,
+                                inline: true
+                            }
+                        )
+                        .setFooter({ text: `Off sale in ${prettifyMiliseconds(new Date(json.data.gesotown.limitedGears[i].saleEndTime).getTime() - Date.now(), { secondsDecimalDigits: 0 })} - Data provided by splatoon3.ink`})
+                    );
+                }
+                await pagination({
+                    embeds: embeds,
+                    author: interaction.member.user,
+                    interaction: interaction,
+                    time: 60000,
+                    disableButtons: false,
+                });
             }
         }
     }
