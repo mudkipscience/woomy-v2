@@ -185,6 +185,52 @@ module.exports = class Splatnet extends Command {
             }
         }
 
+        if (subCmd === 'salmonrun') {
+            if (client.cache.has('SPLATNET_SR') && Date.now() > client.cache.get('SPLATNET_SR').expiry) {
+                client.cache.delete('SPLATNET_SR');
+            }
+
+            if (!client.cache.has('SPLATNET_SR')) {
+                fetch('https://splatoon3.ink/data/schedules.json', { headers: { 'User-Agent': client.config.userAgent} })
+                    .then(res => res.json())
+                    .then(tlJson => {
+                        fetch('https://splatoon3.ink/data/coop.json', { headers: { 'User-Agent': client.config.userAgent} })
+                            .then(rewardRes => rewardRes.json())
+                            .then(async rewardJson => {
+                                const embeds = [];
+                                const json = {
+                                    tl: tlJson.data.coopGroupingSchedule,
+                                    rw: rewardJson.data.coopResult.monthlyGear
+                                };
+
+                                embeds.push(new client.EmbedBuilder()
+                                    .setTitle('Current Salmon Run')
+                                    .setColor(interaction.guild.members.me.displayColor)
+                                    .setThumbnail(json.rw.image.url)
+                                    .setImage(json.tl.regularSchedules.nodes[0].setting.coopStage.image.url)
+                                    .addFields(
+                                        {
+                                            name: 'Stage',
+                                            value: json.tl.regularSchedules.nodes[0].setting.coopStage.name,
+                                            inline: true
+                                        },
+                                        {
+                                            name: 'Monthly Gear',
+                                            value: json.rw.name,
+                                            inline: true
+                                        },
+                                        {
+                                            name: 'Weapons',
+                                            value: json.tl.regularSchedules.nodes[0].setting.weapons[0]
+                                        }
+
+                                    )
+                                );
+                            });
+                    });
+            }
+        }
+
         if (subCmd === 'gear') {
             if (client.cache.has('SPLATNET_GEAR') && Date.now() > client.cache.get('SPLATNET_GEAR').expiry) {
                 client.cache.delete('SPLATNET_GEAR');
