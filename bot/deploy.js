@@ -2,10 +2,16 @@
 
 const { REST, Routes } = require('discord.js');
 const { clientId, token } = require('../botconfig.json');
-const guildId = '413591792185769984';
 const read = require('fs-readdir-recursive');
 const commands = [];
 const commandFiles = read('./commands').filter(file => file.endsWith('.js'));
+
+if (process.argv.length === 2) {
+    console.log('No guild ID provided, deployment failed.');
+    process.exit(1);
+}
+
+const guildId = process.argv[2];
 
 for (const file of commandFiles) {
     const command = new (require(__dirname + '/commands/' + file))(file.substr(file.indexOf('/') + 1).slice(0, -3), file.substr(0, file.indexOf('/')));
